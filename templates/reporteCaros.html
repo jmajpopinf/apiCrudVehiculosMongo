@@ -1,0 +1,32 @@
+<h2>Bienvenido: {{user}} - Reporte de automóviles mas caros</h2>
+
+<table id="datos" class="table table-bordered pagin-table">
+    <thead>
+        <tr>
+            <th>Id Marca</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Color</th>
+            <th>Fecha Compra</th>
+            <th>Costo</th>
+        </tr>
+    </thead>
+    <tbody>
+          <tr ng-repeat="value in data">
+            <td>{{ value.idMarca._id }}</td>
+            <td>{{ value.idMarca.descripcion }}</td>
+            <td>{{ value.modelo }}</td>
+            <td>{{ value.color }}</td>
+            <td>{{ value.fechaCompra }}</td>
+            <td>{{ value.costo }}</td>
+          </tr>
+          <tr class="noSearch hide">
+            <td colspan="5"></td>
+          </tr>
+    </tbody>
+</table>
+
+<div>
+  <center><h3>GRÁFICA MÁS CAROS</h3></center>
+  <canvas id="myChart"></canvas>
+</div>

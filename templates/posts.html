@@ -1,0 +1,192 @@
+
+<ul class=" pull-right">
+  <a href="#/login" ng-click="removeUsuario()" class="btn btn-danger">Cerrar Sesión</a>
+</ul>
+
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+        <div class="pull-left">
+            <h1 style="color:#000000"><strong>Bienvenido: {{getUsuatio()}}</h1>
+        </div>
+        <div class="pull-right" style="padding-top:30px">
+            <button class="btn btn-success" data-toggle="modal" data-target="#EnviarDatos">Agregar Vehiculo</button>
+        </div>
+    </div>
+</div>
+
+<div>
+  Buscar: <input id="searchTerm" type="text" ng-keyup="doSearch()">
+</div>
+
+
+<table id="datos" class="table table-bordered pagin-table">
+    <thead>
+        <tr>
+            <th>Id Vehiculo</th>
+            <th>Usuario</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Color</th>
+            <th>Costo</th>
+            <th>Fecha Compra</th>
+            <th width="220px">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+          <tr ng-repeat="value in data">
+            <td>{{ value._id }}</td>
+            <td>{{ value.idUsuario.nombre }}</td>
+            <td>{{ value.idMarca.descripcion }}</td>
+            <td>{{ value.modelo }}</td>
+            <td>{{ value.color }}</td>
+            <td>{{ value.costo }}</td>
+            <td>{{ value.fechaCompra }}</td>
+            <td>
+            <button data-toggle="modal" ng-click="edit(value._id, value.idUsuario._id, value.idMarca._id, value.modelo, value.color, value.costo, value.fechaCompra)" class="btn btn-primary" data-target="#EditarDatos">Edit</button>
+            <button ng-click="remove(value._id)" class="btn btn-danger">Delete</button>
+            </td>
+          </tr>
+          <tr class="noSearch hide">
+            <td colspan="5"></td>
+          </tr>
+    </tbody>
+</table>
+
+<!--
+<div>
+    Nombre: <input type="text" ng-model="nombre"/><br><br>
+    DNI: <input type="text" ng-model="dni"/><br><br>
+    Correo: <input type="text" ng-model="correo"/><br><br>
+    <input type="button" value="Send" ng-click="postdata(nombre,dni,correo)"><br><br>
+</div>
+
+<div>
+    <p>Mensaje: {{msg}}</p>
+
+    <p>Nombre : {{Nombre}} </p>
+    <p>DNI : {{DNI}} </p>
+    <p>Correo : {{Correo}} </p><br><br>
+</div>
+
+<div>
+  <p>Mensaje: {{msgE}}</p>
+
+  <p>Nombre : {{NombreE}} </p>
+  <p>DNI : {{DNIE}} </p>
+  <p>Correo : {{CorreoE}} </p>
+</div>
+
+<div>
+  <p>prueba nombre: {{ data.Nombre }}</p><br><br>
+  <input type="button" value="Recargar" ng-click="locationreload()"><br><br>
+</div>
+
+-->
+
+<div class="modal fade" id="EnviarDatos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Guardar nuevos datos</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Id Usuario:</label>
+              <input type="text" ng-model="idUsuario" class="form-control" id="recipient-name" placeholder="{{ userIdLocal }}" disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Marca:</label>
+              <select ng-model="marca" class="form-control" id="recipient-name">
+                <option value="{{ marcas._id }}" ng-repeat="marcas in dataMarca">{{ marcas.descripcion }}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Modelo:</label>
+                <input type="text" ng-model="modelo" class="form-control" id="recipient-name">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Color:</label>
+                <input type="text" ng-model="color" class="form-control" id="recipient-name">
+            </div>
+
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Costo:</label>
+              <input type="text" ng-model="costo" class="form-control" id="recipient-name">
+          </div>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" ng-click="postdata()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="EditarDatos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar datos</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Id Vehiculo:</label>
+              <input type="text" ng-model="idVehiculoE" class="form-control" id="recipient-name" disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Id Usuario:</label>
+              <input type="text" ng-model="idUsuarioE" class="form-control" id="recipient-name" disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Id Marca:</label>
+              <select ng-model="idMarcaE" class="form-control" id="recipient-name">
+                <option value="{{ marcas._id }}" ng-repeat="marcas in dataMarca">{{ marcas.descripcion }}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Modelo:</label>
+              <input type="text" ng-model="modeloE" class="form-control" id="recipient-name">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Color:</label>
+                <input type="text" ng-model="colorE" class="form-control" id="recipient-name">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Costo:</label>
+                <input type="text" ng-model="costoE" class="form-control" id="recipient-name">
+            </div>
+
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Fecha Registro:</label>
+              <input type="text" ng-model="fechaE" class="form-control" id="recipient-name" disabled>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" ng-click="saveData()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+

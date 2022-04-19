@@ -1,0 +1,30 @@
+<h2>Bienvenido: {{user}} - Reporte de automóviles mas vendidos</h2>
+
+<table id="datos" class="table table-bordered pagin-table">
+    <thead>
+        <tr>
+            <th>Cantidad</th>
+            <th>Id Marca</th>
+            <th>Marca</th>
+            <th>Total Ventas</th> 
+        </tr>
+    </thead>
+    <tbody>
+          <tr ng-repeat="value in data">
+            <td>{{ value.cantidad }}</td>
+            <td>{{ value.marcas[0]._id }}</td>
+            <td>{{ value.marcas[0].descripcion }}</td>
+            <td>{{ value.total }}</td>
+          </tr>
+          <tr class="noSearch hide">
+            <td colspan="5"></td>
+          </tr>
+    </tbody>
+</table>
+
+<div>
+  <center><h3>GRÁFICA MÁS VENDIDOS</h3></center>
+  <canvas id="doughnut" class="chart chart-doughnut"
+    chart-data="datos" chart-labels="labels">
+  </canvas> 
+</div>
